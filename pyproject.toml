@@ -5,21 +5,17 @@ requires = ["hatchling"]
 [project]
 name = "cookiecutter-scverse-instance"
 version = "0.0.1"
-description = "An example repo generated from the `cookiecutter-scverse` template. Feel free to look around this repo and check out the docs to find out if the template works for you!"
+description = "A project on good code practices for AI Hub students!"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {file = "LICENSE"}
 authors = [
-    {name = "scverse community"},
+    {name = "Nathan Levy"},
 ]
 maintainers = [
-    {name = "scverse community", email = "core-team@scverse.org"},
+    {name = "AI Hub community", email = "aihubadm@weizmann.ac.il"},
 ]
-urls.Documentation = "https://cookiecutter-scverse-instance.readthedocs.io/"
-urls.Source = "https://github.com/scverse/cookiecutter-scverse-instance"
-urls.Home-page = "https://github.com/scverse/cookiecutter-scverse-instance"
 dependencies = [
-    "anndata",
+    "numpy",
     # for debug logging (referenced from the issue template)
     "session-info",
 ]
@@ -119,15 +115,3 @@ convention = "numpy"
 "docs/*" = ["I"]
 "tests/*" = ["D"]
 "*/__init__.py" = ["F401"]
-
-[tool.cruft]
-skip = [
-    "tests",
-    "src/**/__init__.py",
-    "src/**/basic.py",
-    "docs/api.md",
-    "docs/changelog.md",
-    "docs/references.bib",
-    "docs/references.md",
-    "docs/notebooks/example.ipynb",
-]
