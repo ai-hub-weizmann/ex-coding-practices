@@ -3,7 +3,7 @@ build-backend = "hatchling.build"
 requires = ["hatchling"]
 
 [project]
-name = "cookiecutter-scverse-instance"
+name = "knn_package"
 version = "0.0.1"
 description = "A project on good code practices for AI Hub students!"
 readme = "README.md"
