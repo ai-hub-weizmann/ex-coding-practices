@@ -82,3 +82,6 @@ unfixable = []
 
 [tool.ruff.format]
 docstring-code-format = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
