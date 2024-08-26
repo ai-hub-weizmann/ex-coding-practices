@@ -58,30 +58,4 @@ addopts = [
     "--import-mode=importlib",  # allow using test files with same name
 ]
 
-[tool.ruff]
-# Set the maximum line length to 88. Same as Black.
-line-length = 88
-indent-width = 4
-# By default, Ruff will discover files matching *.py, *.ipy, or pyproject.toml. Also enable linting of notebooks
-extend-include = ["*.ipynb"]
-
-[tool.ruff.lint]
-# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
-# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
-# McCabe complexity (`C901`) by default.
-select = ["E4", "E7", "E9", "F"]
-ignore = []
-# Add the `line-too-long` rule to the enforced rule set. By default, Ruff omits rules that
-# overlap with the use of a formatter, like Black, but we can override this behavior by
-# explicitly adding the rule.
-# extend-select = ["E501"]
-
-# Allow fix for all enabled rules (when `--fix`) is provided.
-fixable = ["ALL"]
-unfixable = []
-
-[tool.ruff.format]
-docstring-code-format = true
-
-[tool.ruff.lint.pydocstyle]
-convention = "numpy"
+#If you are using pyproject.toml, you don't need a separate ruff.toml file anymore, you can just use the tool.ruff part here
