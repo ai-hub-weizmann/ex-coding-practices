@@ -4,7 +4,7 @@ import numpy as np
 from ._utils import calc_distance
 
 
-class KNeighborsClassifier:
+class MyKNeighborsClassifier:
     def __init__(self, n_neighbors=5, metric="euclidean", p=2):
         self.n_neighbors = n_neighbors
         self.metric = metric
