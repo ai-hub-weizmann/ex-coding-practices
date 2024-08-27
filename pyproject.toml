@@ -41,7 +41,7 @@ doc = [
     "pandas",
 ]
 test = [
-    "pytest",
+    "unittest",
     "coverage",
 ]
 
@@ -59,3 +59,4 @@ addopts = [
 ]
 
 #If you are using pyproject.toml, you don't need a separate ruff.toml file anymore, you can just use the tool.ruff part here
+#please consult https://docs.astral.sh/ruff/configuration/
