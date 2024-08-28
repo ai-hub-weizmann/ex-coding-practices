@@ -1,14 +1,11 @@
 # Imports
 import numpy as np
-
-from ._utils import calc_distance
+from scipy.spatial import KDTree
 
 
 class MyKNeighborsClassifier:
-    def __init__(self, n_neighbors=5, metric="euclidean", p=2):
+    def __init__(self, n_neighbors=5):
         self.n_neighbors = n_neighbors
-        self.metric = metric
-        self.p = p
 
     def fit(self, X, y):
         self.X_train = X
@@ -16,51 +13,39 @@ class MyKNeighborsClassifier:
         self.classes_ = np.unique(self.y_train)
         self.n_classes = len(np.unique(self.y_train))
 
-        self.distances = calc_distance(self.X_train)
-        self.neighbors = np.argsort(self.distances, axis=1)[:, : self.n_neighbors]
-        self.neighbors_labels = self.y_train[self.neighbors]
-        self.neighbors_distances = self.distances[self.neighbors]
+        self.kdtree = KDTree(self.X_train)
+
+    def kneighbors(self, X=None, n_neighbors=None, return_distance=True):
+        if X is None:
+            X = self.X_train
+        if n_neighbors is None:
+            n_neighbors = self.n_neighbors
+        neigh_dist, neigh_ind = self.kdtree.query(X, k=n_neighbors)
+        if return_distance:
+            return neigh_dist, neigh_ind
+        else:
+            return neigh_ind
 
     def predict(self, X):
-        if X is self.X_train:
-            return self.y_train
-        else:
-            distances = calc_distance(X, self.X_train, metric=self.metric, p=self.p)
-            neighbors = np.argsort(distances, axis=1)[:, : self.n_neighbors]
-            neighbors_labels = self.y_train[neighbors]
+        indices = self.kneighbors(X, return_distance=False)
+        neighbors_labels = self.y_train[indices]
 
-        predictions = np.array(
-            [
-                np.argmax(np.bincount(neighbor_labels))
-                for neighbor_labels in neighbors_labels
-            ]
+        predictions = np.apply_along_axis(
+            lambda x: np.bincount(x).argmax(), axis=1, arr=neighbors_labels
         )
-
-        return self.classes_[predictions]
+        return predictions
 
     def predict_proba(self, X):
-        pass
+        indices = self.kneighbors(X, return_distance=False)
+        neighbors_labels = self.y_train[indices]
 
-    # def predict(self, X):
-    #     y_pred = []
-    #     for x in X:
-    #         distances = euclidean_distances([x], self.X)[0]
-    #         k_indices = np.argsort(distances)[: self.k]
-    #         k_nearest_labels = self.y[k_indices]
-    #         most_common = np.bincount(k_nearest_labels).argmax()
-    #         y_pred.append(most_common)
-    #     return np.array(y_pred)
+        predictions = np.apply_along_axis(
+            lambda x: np.bincount(x, minlength=self.n_classes) / len(x),
+            axis=1,
+            arr=neighbors_labels,
+        )
+        return predictions
 
-    # def predict_proba(self, X):
-    #     y_pred = []
-    #     for x in X:
-    #         distances = euclidean_distances([x], self.X)[0]
-    #         k_indices = np.argsort(distances)[: self.k]
-    #         k_nearest_labels = self.y[k_indices]
-    #         proba = np.bincount(k_nearest_labels, minlength=self.n_classes) / self.n_neighbors
-    #         y_pred.append(proba)
-    #     return np.array(y_pred)
-
-    def score(self, X, y):
+    def score(self, X, y_true):
         y_pred = self.predict(X)
-        return np.mean(y_pred == y)
+        return np.mean(y_pred == y_true)
