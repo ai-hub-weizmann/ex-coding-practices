@@ -16,36 +16,13 @@ class MyKNeighborsClassifier:
         self.kdtree = KDTree(self.X_train)
 
     def kneighbors(self, X=None, n_neighbors=None, return_distance=True):
-        if X is None:
-            X = self.X_train
-        if n_neighbors is None:
-            n_neighbors = self.n_neighbors
-        neigh_dist, neigh_ind = self.kdtree.query(X, k=n_neighbors)
-        if return_distance:
-            return neigh_dist, neigh_ind
-        else:
-            return neigh_ind
+        raise NotImplementedError("Method not implemented")
 
     def predict(self, X):
-        indices = self.kneighbors(X, return_distance=False)
-        neighbors_labels = self.y_train[indices]
-
-        predictions = np.apply_along_axis(
-            lambda x: np.bincount(x).argmax(), axis=1, arr=neighbors_labels
-        )
-        return predictions
+        raise NotImplementedError("Method not implemented")
 
     def predict_proba(self, X):
-        indices = self.kneighbors(X, return_distance=False)
-        neighbors_labels = self.y_train[indices]
-
-        predictions = np.apply_along_axis(
-            lambda x: np.bincount(x, minlength=self.n_classes) / len(x),
-            axis=1,
-            arr=neighbors_labels,
-        )
-        return predictions
+        raise NotImplementedError("Method not implemented")
 
     def score(self, X, y_true):
-        y_pred = self.predict(X)
-        return np.mean(y_pred == y_true)
+        raise NotImplementedError("Method not implemented")
