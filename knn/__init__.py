@@ -1,4 +1,6 @@
 from .data import load_data
 from .knn import MyKNeighborsClassifier
 
-__all__ = ["load_data", "MyKNeighborsClassifier"]
+from ._utils import _generate_simple_synthetic_data
+
+__all__ = ["load_data", "MyKNeighborsClassifier", "_generate_simple_synthetic_data"]
