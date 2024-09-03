@@ -13,6 +13,6 @@ class TestCar(unittest.TestCase):
         efficiency = 10
 
         car = Car(make, model, year, num_seats, fuel_capacity, efficiency)
-        range_left = car.range(fuel_level)
+        range_left = car.calc_range(fuel_level)
 
         assert range_left <= fuel_capacity * efficiency, "Range is too high!"
